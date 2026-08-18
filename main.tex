@@ -1,0 +1,76 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Required Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm} 
+\usepackage[margin=1in]{geometry} 
+\usepackage{hyperref} 
+
+% ==========================================
+% Macros Setup (Shortcuts for math symbols)
+% ==========================================
+\newcommand{\gb}{\gamma_b(G)}
+\newcommand{\zg}{Z(G)}
+\newcommand{\maxdeg}{\Delta} % Maximum degree 
+\newcommand{\mindeg}{\delta} % Minimum degree
+
+% --- Header / Title ---
+\title{Aggressive Literature Summary: Bounds in Graph Parameters}
+\author{Poonmanus Khumkaewkarn \\ 6605218}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% ==========================================
+% Main Content 
+% ==========================================
+
+\section{Introduction}
+Graph theory is an area of discrete mathematics that is important in both pure and applied mathematics. Interesting subtopics to study include the broadcast domination number, $\gb$, which deals with signal transmission power, and the zero forcing number, $\zg$, which deals with propagation under domination conditions.
+
+% ------------------------------------------
+\section{Summary of Paper 1: Broadcast Domination Number}
+% ------------------------------------------
+
+\subsection{What did they do?}
+In this paper, they give new upper and lower bounds for $\gb$ \cite{paper1}. they show that both bounds are tight. Also, They improve the upper bound for a subclass of regular graphs. Further, each vertex can transmit a signal of strength $f(v)$, which must not exceed its eccentricity.
+
+\subsection{What is novel?}
+An upper bound based on packing and minimum degree, a logarithmic lower bound in terms of the maximum degree, $\maxdeg$, and the construction of example graphs to demonstrate tightness.
+
+\subsection{What method was used?}
+The main methods include maximal packing, algorithmic broadcast construction, and a counting argument for the lower bound.
+
+\subsection{Limitations of the research and directions for future work}
+The limitations of this research are that it does not provide an exact value for $k$, but rather specifies a range $0 \leq k \leq \left\lfloor \frac{n}{\mindeg + 1} \right\rfloor$. Furthermore, the output of Algorithm 2.1 depends on the maximal packing used as input, and the lower bound is only applicable when $\maxdeg \geq 3$.
+
+% ------------------------------------------
+\section{Summary of Paper 2: Zero Forcing Numbers}
+% ------------------------------------------
+
+\subsection{What did they do?}
+This study investigates the zero forcing number, $\zg$, of connected graphs on $n$ vertices with a maximum degree $\maxdeg \ge 3$ \cite{paper2}. They classify all graphs that satisfy $\zg = \frac{\maxdeg - 2}{\maxdeg - 1}n$, which include specific graphs such as $K_{\maxdeg-2, \maxdeg}$, $G_1, \dots, G_{36}$, and the families $\mathcal{H}_1$ and $\mathcal{H}_2$. Furthermore,The main proof establishes that if $\zg < \frac{\maxdeg - 2}{\maxdeg - 1}n$, then $\zg \le \frac{(\maxdeg - 2)n - 1}{\maxdeg - 1}$.
+
+\subsection{What is novel?}
+They obtained an improved upper bound and introduced a new proof technique called the maximal augmenting path. Additionally, by using the results related to $\zg$, the upper bound for the nullity is immediately improved as a corollary.
+
+\subsection{What method was used?}
+They use the properties of the derived set $F(Z)$ and a chronological list of forces, along with a main inequality to estimate the expansion rate of the zero forcing set, such as $\frac{|F(Z_0)|}{|Z_0|} \leq \frac{\maxdeg - 1}{\maxdeg - 2}$.
+
+\subsection{Limitations of the research and directions for future work}
+The limitations are that the proof involves numerous cases, and the obtained bound is only applicable to connected graphs with $\maxdeg \ge 3$. Potential directions for future work include applying the maximal augmenting path technique to other parameters such as nullity, the $k$-forcing number, and positive semidefinite zero forcing, studying equality cases for other bounds, or extending the results to graph products and other broad graph classes.
+
+% ------------------------------------------
+\section{Synthesis and Conclusion}
+% ------------------------------------------
+Both papers developed their concepts from the domination number by finding the upper and lower bounds to achieve the lowest cost while maintaining the same efficiency. These bounds can be calculated from the minimum/maximum degree and order. Both researches emphasize the important role of degree properties in optimizing graph propagation and domination models, presenting new techniques that can be extended to broader graph classes in future research.
+
+% ==========================================
+% References
+% ==========================================
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
