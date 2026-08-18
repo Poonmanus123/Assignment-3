@@ -5,6 +5,7 @@
 \usepackage{amsmath, amssymb, amsthm} 
 \usepackage[margin=1in]{geometry} 
 \usepackage{hyperref} 
+\usepackage{tikz}
 
 % ==========================================
 % Macros Setup (Shortcuts for math symbols)
@@ -66,7 +67,68 @@ The limitations are that the proof involves numerous cases, and the obtained bou
 \section{Synthesis and Conclusion}
 % ------------------------------------------
 Both papers developed their concepts from the domination number by finding the upper and lower bounds to achieve the lowest cost while maintaining the same efficiency. These bounds can be calculated from the minimum/maximum degree and order. Both researches emphasize the important role of degree properties in optimizing graph propagation and domination models, presenting new techniques that can be extended to broader graph classes in future research.
+\section{Preliminary Experiments}
+\label{sec:exp}
 
+\subsection{Method}
+We implemented the definitions of dominating broadcast and packing directly from \cite{paper1} in Python (Google Colab with the \texttt{networkx} library). For each small graph $G$, we computed $\gamma_b(G)$ by brute force over all broadcasts $f$ satisfying $f(v) \le e(v)$, computed $\rho(G)$ by exhaustive search over packings, and compared the results with the bounds in Sections~2--3 of \cite{paper1}. The full notebook is available in the repository.
+
+\subsection{Results and observations}
+A summary of the computations is given in Table~\ref{tab:results}. In all 21 tested graphs the inequality $\gamma_b(G) \le 2\rho(G)$ holds, as proved in Section~2.1 of \cite{paper1}; the bound is tight for $C_4$ and $\mathrm{Cin}(1,2)$, but loose for paths, stars and grids. Moreover, for every regular graph tested we observed the equality $\gamma_b(G) = \lceil n/(r+1) \rceil$, which provides computational support for Conjecture~3.8 of \cite{paper1}. Finally, our brute-force values for $\mathrm{Cin}(1,2)$ and $\mathrm{GP}(n,1)$ reproduce Theorems~3.5 and~3.6 of the paper exactly.
+
+\begin{table}[ht]
+\centering
+\caption{Preliminary computational results; $\lceil n/(r+1)\rceil$ is shown only for regular graphs.}
+\label{tab:results}
+\begin{tabular}{lcccccc}
+\hline
+$G$ & $n$ & $\delta$ & $\rho$ & $\gamma_b$ & $2\rho$ & $\lceil n/(r+1)\rceil$ \\
+\hline
+$P_7$ & 7 & 1 & 3 & 3 & 6 & -- \\
+$C_8$ & 8 & 2 & 2 & 3 & 4 & 3 \\
+$K_5$ & 5 & 4 & 1 & 1 & 2 & 1 \\
+grid $3\times3$ & 9 & 2 & 2 & 2 & 4 & -- \\
+$\mathrm{Cin}(1,2)_9$ & 9 & 4 & 1 & 2 & 2 & 2 \\
+$\mathrm{GP}(5,1)$ & 10 & 3 & 2 & 3 & 4 & 3 \\
+\hline
+\end{tabular}
+\end{table}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.1]
+  % จุดยอดของ Cin(1,2)_6 เรียงเป็นหกเหลี่ยม
+  \coordinate (v1) at (90:2);
+  \coordinate (v2) at (30:2);
+  \coordinate (v3) at (-30:2);
+  \coordinate (v4) at (-90:2);
+  \coordinate (v5) at (210:2);
+  \coordinate (v6) at (150:2);
+
+  % เส้น step-1 (ขอบหกเหลี่ยม) เทาทึบ
+  \draw[gray!70, thick] (v1)--(v2)--(v3)--(v4)--(v5)--(v6)--(v1);
+  % เส้น step-2 (คอร์ด) เทาประ
+  \foreach \i/\j in {1/3, 2/4, 3/5, 4/6, 5/1, 6/2}
+    \draw[gray!50, dashed, thick] (v\i)--(v\j);
+
+  % การคลุมของ vertex ที่ broadcast (สีแดง)
+  \draw[red!70!black, ultra thick] (v1)--(v2) (v1)--(v3);
+  \draw[red!70!black, ultra thick] (v4)--(v5) (v4)--(v6);
+
+  % จุดยอด
+  \foreach \i in {2,3,5,6}
+    \fill[blue!30, draw=black, thick] (v\i) circle (0.18);
+  \foreach \i in {1,4}
+    \fill[red!70!black] (v\i) circle (0.18);
+
+  % ป้ายกำกับ
+  \foreach \i in {1,...,6}
+    \node at ({150-60*\i}:2.5) {$u_{\i}$};
+  \node[red!70!black, above right] at (v1) {$f=1$};
+  \node[red!70!black, below right] at (v4) {$f=1$};
+\end{tikzpicture}
+\caption{An optimal dominating broadcast of $\mathrm{Ci_6}(1,2)$ with cost $2=\lceil 6/5\rceil$, matching Theorem~3.5: red vertices broadcast with strength $1$; thick red edges show the covered vertices (each broadcaster also covers itself). Solid gray = step 1, dashed gray = step 2.}
+\label{fig:odb}
+\end{figure}
 % ==========================================
 % References
 % ==========================================
